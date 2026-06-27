@@ -1,0 +1,77 @@
+import { motion } from "framer-motion";
+import config from "../data/weddingConfig";
+import OrnamentDivider from "./OrnamentDivider";
+
+function PersonCard({ name, parents, photo, initial, delay }) {
+  return (
+    <motion.div
+      className="couple__card"
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay }}
+    >
+      <div className="couple__avatar">
+        {photo ? (
+          <img src={photo} alt={name} className="couple__photo" />
+        ) : (
+          <span className="couple__initial">{initial}</span>
+        )}
+      </div>
+      <h3 className="couple__name">{name}</h3>
+      <p className="couple__parents">{parents}</p>
+    </motion.div>
+  );
+}
+
+export default function Couple() {
+  return (
+    <section className="section couple" id="couple">
+      <OrnamentDivider />
+
+      {config.showArabicCalligraphy && (
+        <motion.p
+          className="couple__arabic"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          {config.arabicCalligraphyText}
+        </motion.p>
+      )}
+
+      <motion.p
+        className="section__eyebrow"
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        Mempelai
+      </motion.p>
+
+      <div className="couple__grid">
+        <PersonCard
+          name={config.groomName}
+          parents={config.groomParents}
+          photo={config.groomPhoto}
+          initial={config.groomNameShort[0]}
+          delay={0.1}
+        />
+        <div className="couple__separator">
+          <span>&</span>
+        </div>
+        <PersonCard
+          name={config.brideName}
+          parents={config.brideParents}
+          photo={config.bridePhoto}
+          initial={config.brideNameShort[0]}
+          delay={0.25}
+        />
+      </div>
+
+      <OrnamentDivider />
+    </section>
+  );
+}
