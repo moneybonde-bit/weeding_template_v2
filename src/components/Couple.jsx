@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import config from "../data/weddingConfig";
 import OrnamentDivider from "./OrnamentDivider";
 
-function PersonCard({ name, parents, photo, initial, delay }) {
+function PersonCard({ name, parents, photoUrl, initial, delay }) {
   return (
     <motion.div
       className="couple__card"
@@ -12,8 +12,8 @@ function PersonCard({ name, parents, photo, initial, delay }) {
       transition={{ duration: 0.7, delay }}
     >
       <div className="couple__avatar">
-        {photo ? (
-          <img src={photo} alt={name} className="couple__photo" />
+        {photoUrl ? (
+          <img src={photoUrl} alt={name} className="couple__photo" />
         ) : (
           <span className="couple__initial">{initial}</span>
         )}
@@ -55,17 +55,17 @@ export default function Couple() {
         <PersonCard
           name={config.groomName}
           parents={config.groomParents}
-          photo={config.groomPhoto}
+          photoUrl={config.groomPhotoUrl}
           initial={config.groomNameShort[0]}
           delay={0.1}
         />
         <div className="couple__separator">
-          <span>&</span>
+          <span>&amp;</span>
         </div>
         <PersonCard
           name={config.brideName}
           parents={config.brideParents}
-          photo={config.bridePhoto}
+          photoUrl={config.bridePhotoUrl}
           initial={config.brideNameShort[0]}
           delay={0.25}
         />

@@ -4,7 +4,6 @@
 
 /* ─── Design Tokens ────────────────────────────────────────────────────────── */
 :root {
-  /* Palet Heritage */
   --color-terracotta: #C1654A;
   --color-burgundy: #5C1A1A;
   --color-gold: #B8924A;
@@ -14,11 +13,9 @@
   --color-text-light: #7A5C4A;
   --color-text-muted: #9E7E6D;
 
-  /* Tipografi */
   --font-serif: 'Marcellus', 'Cormorant', Georgia, serif;
   --font-sans: 'Jost', system-ui, sans-serif;
 
-  /* Spacing */
   --section-px: 24px;
   --section-py: 64px;
 }
@@ -41,10 +38,7 @@ body {
   background: var(--color-cream);
 }
 
-#root {
-  min-height: 100svh;
-  overflow-x: hidden;
-}
+#root { min-height: 100svh; overflow-x: hidden; }
 
 img { display: block; max-width: 100%; }
 p { margin: 0; }
@@ -55,13 +49,26 @@ button { cursor: pointer; font-family: var(--font-sans); }
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-burgundy);
+  /* Background default: gradient warna tema */
+  background: linear-gradient(135deg, #7A2020 0%, var(--color-burgundy) 60%);
   overflow: hidden;
 }
 
+/* Foto background (mode "photo") — responsive, object-fit cover */
+.cover__bg-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Blur halus pada foto itu sendiri untuk kesan dreamy */
+  filter: blur(3px) brightness(0.75);
+  transform: scale(1.06); /* kompensasi blur edge */
+  z-index: 0;
+}
+
+/* Video background (mode "color") */
 .cover__video {
   position: absolute;
   inset: 0;
@@ -69,59 +76,129 @@ button { cursor: pointer; font-family: var(--font-sans); }
   height: 100%;
   object-fit: cover;
   opacity: 0.4;
+  z-index: 0;
 }
 
-.cover__overlay {
+/* Overlay foto: blur lebih dalam + gradient gelap supaya teks kontras */
+.cover__overlay--photo {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(92, 26, 26, 0.65) 0%,
-    rgba(60, 20, 10, 0.8) 100%
+    rgba(30, 8, 8, 0.45) 0%,
+    rgba(15, 4, 4, 0.75) 100%
+  );
+  /* backdrop-filter tambahan blur pada layer di atas foto */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Overlay warna: gradient moody */
+.cover__overlay--color {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(92, 26, 26, 0.55) 0%,
+    rgba(50, 12, 12, 0.7) 100%
   );
 }
 
-/* Ornamen sudut cover */
-.cover__corner {
+/* ── Konten yang terungkap di belakang kain (revealed content) ───────────── */
+.cover__reveal {
   position: absolute;
-  width: 90px;
-  height: 90px;
-}
-.cover__corner--tl { top: 16px; left: 16px; }
-.cover__corner--br { bottom: 16px; right: 16px; }
-
-.cover__content {
-  position: relative;
-  z-index: 1;
+  inset: 0;
+  z-index: 3; /* di atas overlay, di bawah kain (z:10) */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px var(--section-px);
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* ── Panel kain (curtain) ─────────────────────────────────────────────────── */
+.cover__curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 10;
+  /* Kain: warna solid burgundy dengan subtle gradient */
+  background: linear-gradient(
+    to bottom,
+    #4A1010 0%,
+    var(--color-burgundy) 40%,
+    #3D0E0E 100%
+  );
+  /* Tekstur sangat halus via box-shadow inner */
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.25);
+}
+
+.cover__curtain--left { left: 0; }
+.cover__curtain--right { right: 0; }
+
+/* Garis tepi kain (bayangan di sisi dalam) */
+.cover__curtain-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.3));
+}
+.cover__curtain-edge--right {
+  right: auto;
+  left: 0;
+  background: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.3));
+}
+
+/* Ornamen sudut di dalam panel kain */
+.cover__corner {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+}
+.cover__curtain--left .cover__corner--tl { top: 16px; left: 16px; }
+.cover__curtain--right .cover__corner--br { bottom: 16px; right: 16px; }
+
+/* ── Konten di atas kain (selalu terlihat, fade saat kain membuka) ─────────── */
+.cover__front-content {
+  position: absolute;
+  inset: 0;
+  z-index: 20; /* di atas kain */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 40px var(--section-px);
   gap: 12px;
-  width: 100%;
-  max-width: 480px;
 }
 
+/* ── Typography cover ─────────────────────────────────────────────────────── */
 .cover__arabic {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--color-gold);
   letter-spacing: 2px;
   margin-bottom: 4px;
 }
 
 .cover__label {
-  font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
   letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .cover__names {
   font-family: var(--font-serif);
-  font-size: clamp(36px, 9vw, 56px);
+  font-size: clamp(34px, 8.5vw, 52px);
   font-weight: 400;
   color: #fff;
   margin: 0;
@@ -136,20 +213,20 @@ button { cursor: pointer; font-family: var(--font-sans); }
 }
 
 .cover__ornament-line {
-  width: 80px;
+  width: 72px;
   height: 1px;
   background: linear-gradient(to right, transparent, var(--color-gold), transparent);
   transform-origin: center;
 }
 
 .cover__date {
-  font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.7);
 }
 
+/* ── Countdown ────────────────────────────────────────────────────────────── */
 .cover__countdown {
   display: flex;
   gap: 20px;
@@ -165,7 +242,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
 .cover__countdown-num {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 26px;
   color: var(--color-gold);
   line-height: 1;
 }
@@ -177,17 +254,18 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: rgba(255,255,255,0.5);
 }
 
+/* ── Guest greeting & CTA ─────────────────────────────────────────────────── */
 .cover__guest {
   margin-top: 8px;
-  padding: 12px 24px;
-  border: 1px solid rgba(184, 146, 74, 0.35);
+  padding: 10px 22px;
+  border: 1px solid rgba(184, 146, 74, 0.4);
   border-radius: 2px;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
 }
 
 .cover__guest-label {
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.5);
@@ -196,23 +274,24 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
 .cover__guest-name {
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 17px;
   color: #fff;
 }
 
 .cover__btn {
   margin-top: 8px;
-  padding: 13px 36px;
+  padding: 12px 34px;
   background: var(--color-terracotta);
   color: #fff;
   border: none;
   border-radius: 2px;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.2s;
 }
-.cover__btn:hover { background: #a8543c; }
+.cover__btn:hover:not(:disabled) { background: #a8543c; }
+.cover__btn:disabled { opacity: 0.7; cursor: default; }
 
 /* ─── Main Content ───────────────────────────────────────────────────────────── */
 .main-content {
@@ -237,7 +316,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
 .section__title {
   font-family: var(--font-serif);
-  font-size: clamp(28px, 6vw, 40px);
+  font-size: clamp(26px, 6vw, 38px);
   font-weight: 400;
   color: var(--color-burgundy);
   margin: 0 0 20px;
@@ -286,33 +365,39 @@ button { cursor: pointer; font-family: var(--font-sans); }
   gap: 12px;
 }
 
+/* REVISI 3: Foto bulat dengan border gold — aspect-ratio 1/1 + border-radius 50% */
 .couple__avatar {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
   background: var(--color-cream-dark);
-  border: 2px solid var(--color-gold);
+  border: 2.5px solid var(--color-gold);
+  box-shadow: 0 0 0 5px rgba(184, 146, 74, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .couple__photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
 }
 
 .couple__initial {
   font-family: var(--font-serif);
-  font-size: 32px;
+  font-size: 34px;
   color: var(--color-terracotta);
 }
 
 .couple__name {
   font-family: var(--font-serif);
-  font-size: 17px;
+  font-size: 16px;
   color: var(--color-burgundy);
   margin: 0;
   font-weight: 400;
@@ -326,15 +411,99 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
 .couple__separator {
   font-family: var(--font-serif);
-  font-size: 40px;
+  font-size: 38px;
   color: var(--color-gold);
   line-height: 1;
   font-style: italic;
 }
 
+/* ─── CouplePhoto Section ────────────────────────────────────────────────────── */
+.couple-photo {
+  background: var(--color-cream-dark);
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.couple-photo__frame-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 12px;
+}
+
+.couple-photo__frame {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--color-cream);
+}
+
+.couple-photo__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.couple-photo__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cream-dark);
+}
+
+.couple-photo__placeholder-text {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  color: var(--color-terracotta);
+  opacity: 0.4;
+}
+
+/* Ornamen sudut frame foto */
+.couple-photo__corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+}
+.couple-photo__corner--tl { top: 0; left: 0; }
+.couple-photo__corner--tr { top: 0; right: 0; }
+.couple-photo__corner--bl { bottom: 0; left: 0; }
+.couple-photo__corner--br { bottom: 0; right: 0; }
+
+.couple-photo__caption {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin-top: 20px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
 /* ─── Love Story ─────────────────────────────────────────────────────────────── */
 .love-story {
   background: var(--color-cream-dark);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Elemen parallax dekoratif — lingkaran besar di bg */
+.love-story__parallax-bg {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 146, 74, 0.12);
+  pointer-events: none;
+  will-change: transform;
 }
 
 .love-story__timeline {
@@ -345,16 +514,17 @@ button { cursor: pointer; font-family: var(--font-sans); }
   margin-top: 32px;
 }
 
-.love-story__timeline::before {
-  content: '';
+/* Garis tengah — dikontrol via useSpring scrollYProgress */
+.love-story__timeline-line {
   position: absolute;
   left: 50%;
   top: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--color-gold) 15%, var(--color-gold) 85%, transparent);
+  background: linear-gradient(to bottom, var(--color-gold) 0%, transparent 100%);
   transform: translateX(-50%);
-  opacity: 0.5;
+  opacity: 0.4;
+  will-change: transform;
 }
 
 .love-story__item {
@@ -382,11 +552,13 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .love-story__item--left .love-story__dot { right: -4px; }
 .love-story__item--right .love-story__dot { left: -4px; }
 
+/* clipPath reveal ditangani via framer-motion (whileInView) */
 .love-story__card {
   background: var(--color-cream);
   border: 1px solid rgba(184, 146, 74, 0.25);
   border-radius: 4px;
   padding: 16px 18px;
+  will-change: clip-path, opacity;
 }
 
 .love-story__year {
@@ -415,37 +587,61 @@ button { cursor: pointer; font-family: var(--font-sans); }
   background: var(--color-cream);
 }
 
-.events__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+/* Layout baru: progress line di kiri + daftar kartu di kanan */
+.events__layout {
+  display: flex;
+  gap: 0;
   margin-top: 32px;
   text-align: left;
+  align-items: stretch;
+}
+
+.events__progress-track {
+  position: relative;
+  width: 3px;
+  flex-shrink: 0;
+  background: rgba(184, 146, 74, 0.18);
+  margin-right: 20px;
+  border-radius: 2px;
+}
+
+.events__progress-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--color-terracotta), var(--color-gold));
+  border-radius: 2px;
+  will-change: transform;
+}
+
+.events__list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .events__card {
   background: #fff;
-  border: 1px solid rgba(184, 146, 74, 0.3);
+  border: 1px solid rgba(184, 146, 74, 0.25);
   border-radius: 4px;
-  padding: 24px 20px;
+  padding: 20px 18px;
   position: relative;
 }
 
-/* Heritage border atas berwarna terracotta */
 .events__card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 16px;
-  right: 16px;
+  left: 12px;
+  right: 12px;
   height: 2px;
   background: linear-gradient(to right, transparent, var(--color-terracotta), transparent);
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 .events__icon {
-  font-size: 22px;
-  margin-bottom: 8px;
+  font-size: 20px;
+  margin-bottom: 6px;
 }
 
 .events__name {
@@ -457,11 +653,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
 }
 
 .events__ornament {
-  width: 48px;
+  width: 40px;
   height: 1px;
   background: var(--color-gold);
   opacity: 0.5;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .events__date {
@@ -472,7 +668,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 }
 
 .events__time {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
@@ -487,18 +683,18 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .events__address {
   font-size: 12px;
   color: var(--color-text-muted);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   line-height: 1.5;
 }
 
 .events__maps-btn {
   display: inline-block;
-  padding: 7px 18px;
+  padding: 6px 16px;
   border: 1px solid var(--color-terracotta);
   color: var(--color-terracotta);
   background: transparent;
   border-radius: 2px;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
   text-decoration: none;
@@ -531,6 +727,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   cursor: pointer;
   aspect-ratio: 4 / 3;
   background: var(--color-cream);
+  will-change: transform, opacity;
 }
 
 .gallery__item img {
@@ -547,7 +744,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(30, 10, 10, 0.9);
+  background: rgba(20, 5, 5, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -559,6 +756,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   max-height: 90svh;
   border-radius: 3px;
   object-fit: contain;
+  will-change: transform, opacity;
 }
 
 .lightbox__close {
@@ -606,7 +804,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
   padding: 32px 24px;
 }
 
-/* Forms shared */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -673,20 +870,15 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: #fff;
   border: none;
   border-radius: 3px;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: background 0.2s;
 }
-.rsvp__submit-btn:hover,
-.wishes__submit-btn:hover { background: #a8543c; }
-.rsvp__submit-btn:disabled,
-.wishes__submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.rsvp__submit-btn:hover, .wishes__submit-btn:hover { background: #a8543c; }
+.rsvp__submit-btn:disabled, .wishes__submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.rsvp__success {
-  text-align: center;
-  padding: 20px 0;
-}
+.rsvp__success { text-align: center; padding: 20px 0; }
 .rsvp__success-icon { font-size: 40px; margin-bottom: 12px; }
 .rsvp__success-msg { font-family: var(--font-serif); font-size: 20px; color: var(--color-burgundy); }
 .rsvp__success-sub { font-size: 13px; color: var(--color-text-muted); margin-top: 6px; }
@@ -805,9 +997,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: #fff;
 }
 
-.digital-envelope__qris {
-  margin-top: 24px;
-}
+.digital-envelope__qris { margin-top: 24px; }
 .digital-envelope__qris-label {
   font-size: 12px;
   letter-spacing: 2px;
@@ -890,11 +1080,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   padding: 48px var(--section-px);
 }
 
-.link-gen__header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
+.link-gen__header { text-align: center; margin-bottom: 40px; }
 .link-gen__title {
   font-family: var(--font-serif);
   font-size: 28px;
@@ -902,12 +1088,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: var(--color-burgundy);
   margin: 0 0 8px;
 }
-
-.link-gen__sub {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  letter-spacing: 1px;
-}
+.link-gen__sub { font-size: 13px; color: var(--color-text-muted); letter-spacing: 1px; }
 
 .link-gen__body {
   width: 100%;
@@ -924,7 +1105,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
   background: var(--color-cream);
   border-radius: 3px;
 }
-
 .link-gen__preview-label {
   font-size: 10px;
   letter-spacing: 2px;
@@ -932,7 +1112,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: var(--color-text-muted);
   margin-bottom: 8px;
 }
-
 .link-gen__url {
   display: block;
   font-family: monospace;
@@ -942,7 +1121,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
   margin-bottom: 12px;
   background: none;
 }
-
 .link-gen__copy-btn {
   width: 100%;
   padding: 11px;
@@ -968,15 +1146,17 @@ button { cursor: pointer; font-family: var(--font-sans); }
     grid-template-columns: 1fr;
     gap: 8px;
   }
+  .couple__separator { font-size: 28px; }
 
-  .couple__separator {
-    font-size: 28px;
-  }
-
-  .love-story__timeline::before { display: none; }
+  /* Love story: full width di mobile */
+  .love-story__timeline-line { display: none; }
   .love-story__item { width: 100%; text-align: left; padding: 12px 0; }
   .love-story__item--right { align-self: flex-start; }
   .love-story__dot { display: none; }
+
+  /* Events: sembunyikan progress line di mobile kecil */
+  .events__progress-track { display: none; }
+  .events__layout { gap: 0; }
 
   .gallery__grid { grid-template-columns: 1fr; }
   .gallery__grid > *:first-child { grid-column: 1; }

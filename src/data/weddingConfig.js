@@ -7,16 +7,23 @@ const weddingConfig = {
   groomName: "Raden Arjuna Pratama",
   groomNameShort: "Arjuna",
   groomParents: "Putra pertama dari Bapak H. Soedjono & Ibu Hj. Sri Wahyuni",
-  groomPhoto: "", // URL foto atau string kosong untuk pakai inisial
+  groomPhotoUrl: "", // URL foto mempelai pria (bulat, 1:1) — kosong = tampil inisial
 
   brideName: "Dewi Kinanthi Wulandari",
   brideNameShort: "Kinanthi",
   brideParents: "Putri kedua dari Bapak Bambang Supriyadi & Ibu Endah Lestari",
-  bridePhoto: "", // URL foto atau string kosong untuk pakai inisial
+  bridePhotoUrl: "", // URL foto mempelai wanita (bulat, 1:1) — kosong = tampil inisial
+
+  couplePhotoUrl: "", // Foto berdua — dipakai di cover bg dan section CouplePhoto
+
+  // ─── Cover Background ───────────────────────────────────────────────────
+  // "photo": pakai couplePhotoUrl sebagai background cover dengan blur + gradient overlay
+  // "color": background solid warna tema (terracotta/burgundy gradient)
+  coverBackgroundType: "color", // "photo" | "color"
 
   // [HERITAGE] Toggle kaligrafi Arab di nama mempelai (default: false)
   showArabicCalligraphy: false,
-  arabicCalligraphyText: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ", // bisa diganti sesuai kebutuhan
+  arabicCalligraphyText: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
 
   // ─── Acara (bisa tambah/kurangi entry — setiap entry format sama) ───────
   // [HERITAGE] Tema ini mendukung acara adat tambahan (siraman, midodareni, dll.)
@@ -67,6 +74,9 @@ const weddingConfig = {
   countdownTarget: "2025-02-15T08:00:00",
 
   // ─── Sections Toggle ────────────────────────────────────────────────────
+  showCouplePhotoSection: false, // Section foto berdua antara Mempelai & Cerita Cinta
+  couplePhotoCaptionText: "Bersama menapaki hidup baru, penuh syukur dan cinta.",
+
   showLoveStory: true,
   showGallery: true,
   showMaps: true,
@@ -130,16 +140,17 @@ const weddingConfig = {
         accountName: "Dewi Kinanthi Wulandari",
       },
     ],
-    qrisImageUrl: "", // URL gambar QRIS, kosongkan jika tidak ada
+    qrisImageUrl: "",
   },
 
   // ─── Musik ───────────────────────────────────────────────────────────────
-  musicUrl: "/music/background.mp3", // taruh file di /public/music/
+  musicUrl: "/music/background.mp3",
 
-  // ─── Cover Video (opsional) ───────────────────────────────────────────────
-  // [HERITAGE] Tema ini mendukung video prosesi adat di cover
+  // ─── Cover Video (opsional — looping di background cover) ────────────────
+  // [HERITAGE] Aktifkan jika ingin video prosesi adat di cover
+  // Hanya berlaku jika coverBackgroundType: "color" (foto lebih prioritas jika "photo")
   showCoverVideo: false,
-  coverVideoUrl: "", // URL video untuk diloop di cover
+  coverVideoUrl: "",
 
   // ─── Meta / SEO ──────────────────────────────────────────────────────────
   metaTitle: "Undangan Pernikahan Arjuna & Kinanthi",
