@@ -1300,21 +1300,132 @@ button { cursor: pointer; font-family: var(--font-sans); }
   color: #fff;
 }
 
-.gallery__grid-wrapper {
+.gallery__desc {
+  font-size: 13px;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  max-width: 420px;
+  margin: -8px auto 0;
+}
+
+.gallery__expand {
   overflow: hidden;
   margin-top: 8px;
 }
 
-.gallery__grid {
+/* ── Filter pills (sliding active background via layoutId) ─────────────────── */
+.gallery__filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 28px auto 24px;
+  max-width: 420px;
+}
+
+.gallery__filter {
+  position: relative;
+  border: 1px solid rgba(184, 146, 74, 0.45);
+  background: transparent;
+  border-radius: 999px;
+  padding: 9px 20px;
+  color: var(--color-text-light);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  transition: color 0.25s, border-color 0.25s;
+  overflow: hidden;
+}
+
+.gallery__filter--active {
+  color: #fff;
+  border-color: var(--color-burgundy);
+}
+
+.gallery__filter-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #7A2020 0%, var(--color-burgundy) 100%);
+  border-radius: 999px;
+  z-index: 0;
+}
+
+.gallery__filter-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Mosaic editorial (tinggi bervariasi, dense packing) ──────────────────── */
+.gallery__mosaic {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 104px;
+  grid-auto-flow: dense;
   gap: 8px;
+  margin-top: 8px;
+}
+
+.gallery__tile {
+  position: relative;
+  grid-row: span 2;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--color-cream);
+  padding: 0;
+  border: none;
+  will-change: transform, opacity;
+}
+
+.gallery__tile--tall { grid-row: span 3; }
+.gallery__tile--wide { grid-column: span 2; grid-row: span 2; }
+
+.gallery__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery__tile:hover img { transform: scale(1.06); }
+
+.gallery__tile-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  background: linear-gradient(to top, rgba(40, 12, 12, 0.75) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.gallery__tile:hover .gallery__tile-overlay { opacity: 1; }
+
+.gallery__tile-cat {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  transform: translateY(6px);
+  transition: transform 0.3s;
+}
+
+.gallery__tile:hover .gallery__tile-cat { transform: translateY(0); }
+
+.gallery__empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-style: italic;
   margin-top: 24px;
 }
 
-/* Override: tidak pakai full-width pertama lagi karena layout berbeda */
-.gallery__grid > *:first-child {
-  grid-column: auto;
+/* ── Section divider kecil (garis emas pendek di bawah judul) ──────────────── */
+.section__divider-sm {
+  width: 52px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-gold);
+  margin: 0 auto 18px;
 }
 
 /* ─── Lightbox nav (next/prev/counter) ───────────────────────────────────────── */
@@ -1427,6 +1538,30 @@ button { cursor: pointer; font-family: var(--font-sans); }
 /* ─── Scroll margin agar nav scrollIntoView tidak tertutup nav ──────────────── */
 #couple, #events, #ayat, #gallery {
   scroll-margin-top: 12px;
+}
+
+/* ─── Polish: micro-interaction hover lift (perceived quality) ──────────────── */
+.events__card,
+.digital-envelope__card,
+.gallery__preview-card {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  will-change: transform;
+}
+.events__card:hover,
+.digital-envelope__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(92, 26, 26, 0.12);
+}
+
+/* ─── Desktop: mosaic 3 kolom + galeri preview lebih lega ───────────────────── */
+@media (min-width: 640px) {
+  .gallery__mosaic {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 120px;
+  }
+  .gallery__preview {
+    max-width: 520px;
+  }
 }
 
 /* ─── Link Generator (Admin) ─────────────────────────────────────────────────── */
