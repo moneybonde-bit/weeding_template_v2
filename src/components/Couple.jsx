@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import config from "../data/weddingConfig";
 import OrnamentDivider from "./OrnamentDivider";
 
-function PersonCard({ name, parents, photoUrl, initial, delay }) {
+function PersonCard({ name, parents, photoUrl, initial, ig, delay }) {
   return (
     <motion.div
       className="couple__card"
@@ -20,6 +20,16 @@ function PersonCard({ name, parents, photoUrl, initial, delay }) {
       </div>
       <h3 className="couple__name">{name}</h3>
       <p className="couple__parents">{parents}</p>
+      {ig && (
+        <a
+          href={`https://instagram.com/${ig.replace("@", "")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="couple__ig"
+        >
+          {ig}
+        </a>
+      )}
     </motion.div>
   );
 }
@@ -57,6 +67,7 @@ export default function Couple() {
           parents={config.groomParents}
           photoUrl={config.groomPhotoUrl}
           initial={config.groomNameShort[0]}
+          ig={config.groomIG}
           delay={0.1}
         />
         <div className="couple__separator">
@@ -67,6 +78,7 @@ export default function Couple() {
           parents={config.brideParents}
           photoUrl={config.bridePhotoUrl}
           initial={config.brideNameShort[0]}
+          ig={config.brideIG}
           delay={0.25}
         />
       </div>
