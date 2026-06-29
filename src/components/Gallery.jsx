@@ -77,12 +77,9 @@ export default function Gallery() {
   const [activeCat, setActiveCat] = useState("all");
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  if (!config.showGallery) return null;
-
   const photos = config.gallery || [];
   const categories = config.galleryCategories || [{ id: "all", label: "Semua" }];
 
-  // Foto yang tampil sesuai kategori aktif
   const filtered = useMemo(() => {
     if (activeCat === "all") return photos;
     return photos.filter((p) => p.category === activeCat);
@@ -95,6 +92,8 @@ export default function Gallery() {
   const handleNext = useCallback(() => {
     setLightboxIndex((i) => (i === null ? null : (i + 1) % filtered.length));
   }, [filtered.length]);
+
+  if (!config.showGallery) return null;
 
   function catLabel(id) {
     return categories.find((c) => c.id === id)?.label || "";
