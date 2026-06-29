@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import config from "../data/weddingConfig";
 import OrnamentDivider from "./OrnamentDivider";
+import EthnicIconRow from "./EthnicIcons";
 
 function PersonCard({ name, parents, photoUrl, initial, ig, delay }) {
   return (
@@ -82,6 +83,8 @@ export default function Couple() {
           delay={0.25}
         />
       </div>
+
+      <EthnicIconRow />
 
       <OrnamentDivider />
     </section>
