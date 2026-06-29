@@ -112,14 +112,33 @@ const weddingConfig = {
   loveStory: [],
 
   // ─── Galeri — 25 foto momen pernikahan ─────────────────────────────────────
+  galleryEyebrow: "Dokumentasi Indah",
+  galleryTitle: "Galeri Foto",
+  galleryDescription:
+    "Momen-momen indah kebersamaan kami yang diabadikan penuh cinta dalam hangatnya tema Modern Adat.",
+
+  // Kategori filter galeri. `id: "all"` wajib ada (tombol "Semua").
+  // Ubah label/urutan sesuka hati; tambah/kurangi kategori sesuai kebutuhan.
+  galleryCategories: [
+    { id: "all", label: "Semua" },
+    { id: "bersama", label: "Momen Bersama" },
+    { id: "pranikah", label: "Sesi Pranikah" },
+    { id: "detail", label: "Detail Indah" },
+  ],
+
   // TODO MANUSIA: simpan file foto ke folder `public/assets/gallery/`
   //               dengan penamaan: foto-01.jpg, foto-02.jpg, … foto-25.jpg
-  // Jika file belum ada, kartu galeri akan tampil broken-image — hapus entry
-  // yang belum tersedia atau biarkan kosong (akan saya kasih placeholder).
-  gallery: Array.from({ length: 25 }, (_, i) => ({
-    src: `/assets/gallery/foto-${String(i + 1).padStart(2, "0")}.jpg`,
-    alt: `Foto ${i + 1} — Arman & Dian`,
-  })),
+  // Field `category` = id dari galleryCategories (selain "all"). Sesuaikan
+  // tiap foto masuk kategori mana. Default di-cycle otomatis sebagai contoh.
+  // Jika file belum ada, kartu galeri akan tampil broken-image.
+  gallery: Array.from({ length: 25 }, (_, i) => {
+    const cats = ["bersama", "pranikah", "detail"];
+    return {
+      src: `/assets/gallery/foto-${String(i + 1).padStart(2, "0")}.jpg`,
+      alt: `Foto ${i + 1} — Arman & Dian`,
+      category: cats[i % cats.length], // TODO: sesuaikan kategori tiap foto
+    };
+  }),
 
   // ─── Maps Embed ─────────────────────────────────────────────────────────────
   // Ganti nilai ini dengan embed URL dari Google Maps (klik Share → Embed a map)

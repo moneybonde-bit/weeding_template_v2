@@ -1,22 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import config from "../data/weddingConfig";
 import OrnamentDivider from "./OrnamentDivider";
 
-const gridVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, scale: 0.91, y: 18 },
-  show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
+// Pola ukuran tile untuk efek mosaic editorial (tall / wide / normal)
+function tileSize(i) {
+  const m = i % 6;
+  if (m === 0) return "tall";
+  if (m === 3) return "wide";
+  return "normal";
+}
 
 function Lightbox({ photos, index, onClose, onPrev, onNext }) {
   const photo = photos[index];
 
-  // Keyboard nav: Esc, ←, →
   useEffect(() => {
     function handleKey(e) {
       if (e.key === "Escape") onClose();
@@ -39,7 +36,6 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
         transition={{ duration: 0.25 }}
         onClick={onClose}
       >
-        {/* Swipe-friendly: drag horizontal → next/prev */}
         <motion.img
           key={photo.src}
           src={photo.src}
@@ -78,20 +74,31 @@ function Lightbox({ photos, index, onClose, onPrev, onNext }) {
 
 export default function Gallery() {
   const [expanded, setExpanded] = useState(false);
+  const [activeCat, setActiveCat] = useState("all");
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   if (!config.showGallery) return null;
 
   const photos = config.gallery || [];
-  const totalLabel = photos.length;
+  const categories = config.galleryCategories || [{ id: "all", label: "Semua" }];
+
+  // Foto yang tampil sesuai kategori aktif
+  const filtered = useMemo(() => {
+    if (activeCat === "all") return photos;
+    return photos.filter((p) => p.category === activeCat);
+  }, [photos, activeCat]);
 
   const handlePrev = useCallback(() => {
-    setLightboxIndex((i) => (i === null ? null : (i - 1 + photos.length) % photos.length));
-  }, [photos.length]);
+    setLightboxIndex((i) => (i === null ? null : (i - 1 + filtered.length) % filtered.length));
+  }, [filtered.length]);
 
   const handleNext = useCallback(() => {
-    setLightboxIndex((i) => (i === null ? null : (i + 1) % photos.length));
-  }, [photos.length]);
+    setLightboxIndex((i) => (i === null ? null : (i + 1) % filtered.length));
+  }, [filtered.length]);
+
+  function catLabel(id) {
+    return categories.find((c) => c.id === id)?.label || "";
+  }
 
   return (
     <section className="section gallery" id="gallery">
@@ -102,7 +109,7 @@ export default function Gallery() {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        Galeri
+        {config.galleryEyebrow || "Galeri"}
       </motion.p>
 
       <motion.h2
@@ -112,10 +119,22 @@ export default function Gallery() {
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.1 }}
       >
-        Momen Kita
+        {config.galleryTitle || "Momen Kita"}
       </motion.h2>
 
-      <OrnamentDivider />
+      <div className="section__divider-sm" />
+
+      {config.galleryDescription && (
+        <motion.p
+          className="gallery__desc"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
+          {config.galleryDescription}
+        </motion.p>
+      )}
 
       {/* Preview 2 foto mempelai — selalu tampil */}
       <div className="gallery__preview">
@@ -135,7 +154,6 @@ export default function Gallery() {
         />
       </div>
 
-      {/* Tombol toggle */}
       <motion.button
         className="gallery__toggle-btn"
         onClick={() => setExpanded((v) => !v)}
@@ -143,47 +161,81 @@ export default function Gallery() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.3 }}
+        whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
       >
-        {expanded ? "Sembunyikan Foto" : `Lihat ${totalLabel} Foto Lainnya →`}
+        {expanded ? "Sembunyikan Foto" : `Lihat ${photos.length} Foto Lainnya →`}
       </motion.button>
 
-      {/* Grid expandable */}
       <AnimatePresence initial={false}>
         {expanded && (
           <motion.div
-            className="gallery__grid-wrapper"
+            className="gallery__expand"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <motion.div
-              className="gallery__grid"
-              variants={gridVariants}
-              initial="hidden"
-              animate="show"
-            >
-              {photos.map((photo, i) => (
-                <motion.div
-                  key={i}
-                  className="gallery__item"
-                  variants={itemVariants}
-                  onClick={() => setLightboxIndex(i)}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <img src={photo.src} alt={photo.alt} loading="lazy" />
-                </motion.div>
-              ))}
+            {/* Filter pills */}
+            <div className="gallery__filters" role="tablist">
+              {categories.map((cat) => {
+                const isActive = activeCat === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`gallery__filter${isActive ? " gallery__filter--active" : ""}`}
+                    onClick={() => setActiveCat(cat.id)}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="gallery-filter-pill"
+                        className="gallery__filter-bg"
+                        transition={{ type: "spring", damping: 26, stiffness: 320 }}
+                      />
+                    )}
+                    <span className="gallery__filter-text">{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Mosaic dengan reflow beranimasi saat ganti filter */}
+            <motion.div layout className="gallery__mosaic">
+              <AnimatePresence mode="popLayout">
+                {filtered.map((photo, i) => (
+                  <motion.button
+                    key={photo.src}
+                    layout
+                    type="button"
+                    className={`gallery__tile gallery__tile--${tileSize(i)}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    onClick={() => setLightboxIndex(i)}
+                  >
+                    <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    <span className="gallery__tile-overlay">
+                      <span className="gallery__tile-cat">{catLabel(photo.category)}</span>
+                    </span>
+                  </motion.button>
+                ))}
+              </AnimatePresence>
             </motion.div>
+
+            {filtered.length === 0 && (
+              <p className="gallery__empty">Belum ada foto di kategori ini.</p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {lightboxIndex !== null && (
+      {lightboxIndex !== null && filtered[lightboxIndex] && (
         <Lightbox
-          photos={photos}
+          photos={filtered}
           index={lightboxIndex}
           onClose={() => setLightboxIndex(null)}
           onPrev={handlePrev}
@@ -204,6 +256,7 @@ function PreviewCard({ label, name, src, initial, delay }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.7, delay }}
+      whileHover={{ y: -4 }}
     >
       <div className="gallery__preview-img">
         {src ? (
