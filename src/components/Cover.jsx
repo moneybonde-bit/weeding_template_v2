@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import config from "../data/weddingConfig";
 
 const COUNTDOWN_KEYS = ["hari", "jam", "menit", "detik"];
@@ -16,44 +16,69 @@ function calcCountdown(target) {
   };
 }
 
-// Spring config untuk efek kain terbuka — smooth dengan momentum
 const CURTAIN_SPRING = { type: "spring", damping: 22, stiffness: 70, mass: 1.1 };
+
+const coverPhotos = config.coverPhotos || [];
+const isSlideshow = config.coverBackgroundType === "slideshow" && coverPhotos.length > 0;
+const hasPhoto = config.coverBackgroundType === "photo" && config.couplePhotoUrl;
 
 export default function Cover({ guestName, onOpen }) {
   const [phase, setPhase] = useState("idle"); // "idle" | "opening"
   const [countdown, setCountdown] = useState(() => calcCountdown(config.countdownTarget));
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => setCountdown(calcCountdown(config.countdownTarget)), 1000);
     return () => clearInterval(id);
   }, []);
 
+  // Auto-cycle foto slideshow setiap 4.5 detik
+  useEffect(() => {
+    if (!isSlideshow || coverPhotos.length <= 1) return;
+    const id = setInterval(() => {
+      setActivePhotoIndex((i) => (i + 1) % coverPhotos.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, []);
+
   function handleOpen() {
     if (phase !== "idle") return;
     setPhase("opening");
-    // Tunggu spring selesai (~1.2s) + brief reveal (~0.5s), lalu transition
     setTimeout(() => onOpen(), 1800);
   }
 
   const mainEvent = config.events.find((e) => e.id === "resepsi") || config.events[0];
-  const hasPhoto = config.coverBackgroundType === "photo" && config.couplePhotoUrl;
 
   return (
     <div className="cover">
       {/* ── Layer 1: Background ─────────────────────────────────── */}
-      {hasPhoto ? (
+      {isSlideshow ? (
+        <>
+          <AnimatePresence>
+            <motion.img
+              key={activePhotoIndex}
+              src={coverPhotos[activePhotoIndex]}
+              alt=""
+              className="cover__bg-photo"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.4 }}
+            />
+          </AnimatePresence>
+          <div className="cover__overlay cover__overlay--photo" />
+        </>
+      ) : hasPhoto ? (
         <>
           <img
             src={config.couplePhotoUrl}
             alt=""
             className="cover__bg-photo"
           />
-          {/* blur overlay + gradient gelap supaya teks tetap terbaca */}
           <div className="cover__overlay cover__overlay--photo" />
         </>
       ) : (
         <>
-          {/* Video opsional untuk mode color */}
           {config.showCoverVideo && config.coverVideoUrl && (
             <video className="cover__video" src={config.coverVideoUrl} autoPlay muted loop playsInline />
           )}
@@ -99,12 +124,10 @@ export default function Cover({ guestName, onOpen }) {
         animate={phase === "opening" ? { x: "-100%" } : { x: "0%" }}
         transition={CURTAIN_SPRING}
       >
-        {/* Ornamen sudut kiri atas */}
         <svg className="cover__corner cover__corner--tl" viewBox="0 0 80 80" fill="none">
           <path d="M2 78 L2 2 L78 2" stroke="var(--color-gold)" strokeWidth="1" strokeOpacity="0.5" />
           <path d="M2 50 Q20 20 50 2" stroke="var(--color-gold)" strokeWidth="0.8" strokeOpacity="0.35" />
         </svg>
-        {/* Garis tengah panel */}
         <div className="cover__curtain-edge" />
       </motion.div>
 
@@ -114,7 +137,6 @@ export default function Cover({ guestName, onOpen }) {
         animate={phase === "opening" ? { x: "100%" } : { x: "0%" }}
         transition={CURTAIN_SPRING}
       >
-        {/* Ornamen sudut kanan bawah */}
         <svg className="cover__corner cover__corner--br" viewBox="0 0 80 80" fill="none">
           <path d="M78 2 L78 78 L2 78" stroke="var(--color-gold)" strokeWidth="1" strokeOpacity="0.5" />
           <path d="M78 30 Q60 60 30 78" stroke="var(--color-gold)" strokeWidth="0.8" strokeOpacity="0.35" />
@@ -149,7 +171,6 @@ export default function Cover({ guestName, onOpen }) {
 
         <p className="cover__date">{mainEvent.date}</p>
 
-        {/* Kepada tamu */}
         <motion.div
           className="cover__guest"
           initial={{ opacity: 0 }}
@@ -160,7 +181,6 @@ export default function Cover({ guestName, onOpen }) {
           <p className="cover__guest-name">{guestName}</p>
         </motion.div>
 
-        {/* CTA */}
         <motion.button
           className="cover__btn"
           onClick={handleOpen}
@@ -173,6 +193,18 @@ export default function Cover({ guestName, onOpen }) {
         >
           Buka Undangan
         </motion.button>
+
+        {/* Indikator slideshow — tampil hanya di mode slideshow */}
+        {isSlideshow && coverPhotos.length > 1 && (
+          <div className="cover__slideshow-dots">
+            {coverPhotos.map((_, i) => (
+              <span
+                key={i}
+                className={`cover__slideshow-dot${i === activePhotoIndex ? " cover__slideshow-dot--active" : ""}`}
+              />
+            ))}
+          </div>
+        )}
       </motion.div>
     </div>
   );
