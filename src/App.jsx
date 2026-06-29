@@ -7,6 +7,7 @@ import config from "./data/weddingConfig";
 import Cover from "./components/Cover";
 import Couple from "./components/Couple";
 import CouplePhoto from "./components/CouplePhoto";
+import OurPrayer from "./components/OurPrayer";
 import LoveStory from "./components/LoveStory";
 import Events from "./components/Events";
 import Gallery from "./components/Gallery";
@@ -52,6 +53,7 @@ export default function App() {
           >
             <Couple />
             <CouplePhoto />
+            <OurPrayer />
             <LoveStory />
             <Events />
             <Gallery />

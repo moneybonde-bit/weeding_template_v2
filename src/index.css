@@ -293,6 +293,27 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .cover__btn:hover:not(:disabled) { background: #a8543c; }
 .cover__btn:disabled { opacity: 0.7; cursor: default; }
 
+/* ── Slideshow dots ───────────────────────────────────────────────────────── */
+.cover__slideshow-dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.cover__slideshow-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(184, 146, 74, 0.45);
+  transition: background 0.45s;
+}
+
+.cover__slideshow-dot--active {
+  background: var(--color-gold);
+}
+
 /* ─── Main Content ───────────────────────────────────────────────────────────── */
 .main-content {
   width: 100%;
@@ -409,6 +430,16 @@ button { cursor: pointer; font-family: var(--font-sans); }
   line-height: 1.5;
 }
 
+.couple__ig {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--color-terracotta);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.couple__ig:hover { opacity: 1; }
+
 .couple__separator {
   font-family: var(--font-serif);
   font-size: 38px;
@@ -483,6 +514,24 @@ button { cursor: pointer; font-family: var(--font-sans); }
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
+}
+
+/* ─── Our Prayer ─────────────────────────────────────────────────────────────── */
+.our-prayer {
+  background: var(--color-cream-dark);
+}
+
+.our-prayer__text {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 3.8vw, 19px);
+  font-style: italic;
+  color: var(--color-text-light);
+  line-height: 1.85;
+  max-width: 520px;
+  margin: 0 auto;
+  border: 0;
+  padding: 0;
+  text-align: center;
 }
 
 /* ─── Love Story ─────────────────────────────────────────────────────────────── */
@@ -1068,6 +1117,68 @@ button { cursor: pointer; font-family: var(--font-sans); }
   font-size: 11px;
   color: rgba(255,255,255,0.3);
   letter-spacing: 1px;
+}
+
+/* ─── Footer — tambahan klien Arman & Dian ───────────────────────────────────── */
+.footer__scripture {
+  max-width: 480px;
+  margin: 0 auto 8px;
+  padding: 0 12px;
+}
+
+.footer__scripture-text {
+  font-family: var(--font-serif);
+  font-size: clamp(14px, 3.5vw, 16px);
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+
+.footer__scripture-ref {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  opacity: 0.8;
+}
+
+.footer__closing {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer__families {
+  display: flex;
+  gap: 0;
+  max-width: 520px;
+  margin: 0 auto 8px;
+  text-align: left;
+}
+
+.footer__family-col {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.footer__family-divider {
+  width: 1px;
+  background: rgba(184, 146, 74, 0.25);
+  flex-shrink: 0;
+  margin: 4px 0;
+}
+
+.footer__family-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.85;
 }
 
 /* ─── Link Generator (Admin) ─────────────────────────────────────────────────── */

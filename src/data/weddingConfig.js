@@ -1,161 +1,151 @@
 // Heritage - Modern Adat Wedding Config
-// Field structure KONSISTEN dengan tema 1 (Serene - Minimalist Modern)
-// Field khusus tema ini ditandai dengan komentar // [HERITAGE]
+// Klien: Arman Kanaf & Dian Hezedila Sharon
+// Acara: 25 Juli 2026, Parigi Mautong, Sulawesi Tengah
 
 const weddingConfig = {
-  // ─── Identitas Acara ────────────────────────────────────────────────────
-  groomName: "Raden Arjuna Pratama",
-  groomNameShort: "Arjuna",
-  groomParents: "Putra pertama dari Bapak H. Soedjono & Ibu Hj. Sri Wahyuni",
+  // ─── Identitas Mempelai ─────────────────────────────────────────────────────
+  groomName: "Arman Kanaf",
+  groomNameShort: "Arman",
+  groomParents: "Putra keempat dari Bapak Felipus Kanaf & Ibu Frida A.B.T Baok",
   groomPhotoUrl: "", // URL foto mempelai pria (bulat, 1:1) — kosong = tampil inisial
+  groomIG: "@armankanafkanaf",
 
-  brideName: "Dewi Kinanthi Wulandari",
-  brideNameShort: "Kinanthi",
-  brideParents: "Putri kedua dari Bapak Bambang Supriyadi & Ibu Endah Lestari",
+  brideName: "Dian Hezedila Sharon",
+  brideNameShort: "Dian",
+  brideParents: "Putri kedua dari Alm. Bapak I Wayan Wismayasa & Ibu Elim Sia Wasti Tehampa",
   bridePhotoUrl: "", // URL foto mempelai wanita (bulat, 1:1) — kosong = tampil inisial
+  brideIG: "@dianhzsharon",
 
-  couplePhotoUrl: "", // Foto berdua — dipakai di cover bg dan section CouplePhoto
+  couplePhotoUrl: "", // Foto berdua — dipakai di section CouplePhoto jika diaktifkan
 
-  // ─── Cover Background ───────────────────────────────────────────────────
-  // "photo": pakai couplePhotoUrl sebagai background cover dengan blur + gradient overlay
-  // "color": background solid warna tema (terracotta/burgundy gradient)
-  coverBackgroundType: "color", // "photo" | "color"
+  // ─── Cover Background ───────────────────────────────────────────────────────
+  // "slideshow" : gunakan coverPhotos[] — 3 foto bergantian auto-cycling (AKTIF)
+  // "photo"     : gunakan couplePhotoUrl (1 foto tunggal)
+  // "color"     : background solid gradient warna tema
+  coverBackgroundType: "slideshow",
 
-  // [HERITAGE] Toggle kaligrafi Arab di nama mempelai (default: false)
+  // Tiga foto adat Arman & Dian — simpan file di src/assets/
+  // Nama file bisa disesuaikan; pastikan path di sini cocok.
+  coverPhotos: [
+    "/assets/cover-1.jpg",
+    "/assets/cover-2.jpg",
+    "/assets/cover-3.jpg",
+  ],
+
+  // Kaligrafi Arab — dinonaktifkan (pasangan Kristiani)
   showArabicCalligraphy: false,
-  arabicCalligraphyText: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+  arabicCalligraphyText: "",
 
-  // ─── Acara (bisa tambah/kurangi entry — setiap entry format sama) ───────
-  // [HERITAGE] Tema ini mendukung acara adat tambahan (siraman, midodareni, dll.)
+  // ─── Acara ──────────────────────────────────────────────────────────────────
   events: [
     {
-      id: "siraman",
-      name: "Siraman",
-      date: "Jumat, 14 Februari 2025",
-      time: "09.00 WIB",
-      venue: "Rumah Kediaman Mempelai Wanita",
-      address: "Jl. Kemuning No. 12, Yogyakarta",
-      mapsUrl: "https://maps.google.com/?q=-7.7956,110.3695",
-      showOnInvite: true,
-    },
-    {
-      id: "midodareni",
-      name: "Midodareni",
-      date: "Jumat, 14 Februari 2025",
-      time: "19.00 WIB",
-      venue: "Rumah Kediaman Mempelai Wanita",
-      address: "Jl. Kemuning No. 12, Yogyakarta",
-      mapsUrl: "https://maps.google.com/?q=-7.7956,110.3695",
-      showOnInvite: true,
-    },
-    {
-      id: "akad",
-      name: "Akad Nikah",
-      date: "Sabtu, 15 Februari 2025",
-      time: "08.00 WIB",
-      venue: "Masjid Agung Keraton",
-      address: "Jl. Alun-Alun Utara No. 1, Yogyakarta",
-      mapsUrl: "https://maps.google.com/?q=-7.8053,110.3642",
+      id: "pemberkatan",
+      name: "Pemberkatan Nikah",
+      date: "Sabtu, 25 Juli 2026",
+      time: "11.00 WITA – selesai",
+      venue: "GKST Jemaat Imanuel Parigi",
+      address: "Sulawesi Tengah",
+      mapsUrl: "https://maps.app.goo.gl/grQ1n2DdH7pQQsqj7",
       showOnInvite: true,
     },
     {
       id: "resepsi",
       name: "Resepsi Pernikahan",
-      date: "Sabtu, 15 Februari 2025",
-      time: "11.00 – 15.00 WIB",
-      venue: "Pendopo Agung Heritage Hall",
-      address: "Jl. Malioboro No. 52, Yogyakarta",
-      mapsUrl: "https://maps.google.com/?q=-7.7933,110.3673",
+      date: "Sabtu, 25 Juli 2026",
+      time: "19.00 WITA – selesai",
+      venue: "Auditorium Kantor Bupati Parigi Mautong",
+      address: "Sulawesi Tengah",
+      mapsUrl: "https://maps.app.goo.gl/SjQUWF4XsHN4jCsF7",
       showOnInvite: true,
     },
   ],
 
-  // ─── Countdown Target (tanggal & jam acara utama) ──────────────────────
-  countdownTarget: "2025-02-15T08:00:00",
+  // ─── Countdown Target (Pemberkatan Nikah, WITA = UTC+8) ────────────────────
+  countdownTarget: "2026-07-25T11:00:00+08:00",
 
-  // ─── Sections Toggle ────────────────────────────────────────────────────
-  showCouplePhotoSection: false, // Section foto berdua antara Mempelai & Cerita Cinta
-  couplePhotoCaptionText: "Bersama menapaki hidup baru, penuh syukur dan cinta.",
+  // ─── Our Prayer (section terpisah dari ayat Alkitab) ────────────────────────
+  ourPrayer:
+    "Dalam setiap doa kami dan dalam kasih-Nya yang kekal, Tuhan mempertemukan kami, bukan hanya untuk berjalan bersama, tetapi untuk dipersatukan dalam satu panggilan: menjadi terang dan saksi kasih Kristus bagi bangsa-bangsa.",
 
-  showLoveStory: true,
+  // ─── Ayat Alkitab (section khusus di footer) ────────────────────────────────
+  scriptureVerse:
+    "Kiranya Engkau sekarang berkenan memberkati keluarga hamba-Mu ini, supaya tetap ada di hadapan-Mu untuk selama-lamanya. Sebab apa yang Engkau berkati, ya TUHAN, diberkati untuk selama-lamanya.",
+  scriptureReference: "1 Tawarikh 17:27 (TB)",
+
+  // ─── Penutup & Nama Keluarga ────────────────────────────────────────────────
+  closingText: "Dengan kasih dan sukacita dalam Tuhan, Hormat kami keluarga besar",
+  familyNamesLeft: [
+    "Kel. Kanaf - Baok",
+    "Kel. Neno - Nenoharan",
+    "Kel. Pdt. Noh Ruku",
+    "Kel. Masriani Ruthi Tiara Lina Siregar",
+  ],
+  familyNamesRight: [
+    "Kel. Wismayasa – Tehampa",
+    "Kel. Tehampa – Louhenapessy",
+    "Kel. Bartolomius – Wirati",
+    "Kel. Nyolo-nyolo - Tangkidi",
+  ],
+
+  // ─── Sections Toggle ────────────────────────────────────────────────────────
+  showCouplePhotoSection: false,
+  couplePhotoCaptionText: "",
+
+  showLoveStory: false, // Belum ada data dari klien — aktifkan & isi loveStory[] nanti
   showGallery: true,
   showMaps: true,
   showRsvp: true,
   showWishes: true,
   showDigitalEnvelope: true,
 
-  // ─── Love Story ─────────────────────────────────────────────────────────
-  loveStory: [
-    {
-      year: "2019",
-      title: "Pertama Berjumpa",
-      description:
-        "Pertemuan pertama di festival budaya Yogyakarta. Sebuah tatapan yang tidak sengaja menjadi awal dari segalanya.",
-    },
-    {
-      year: "2021",
-      title: "Membangun Mimpi Bersama",
-      description:
-        "Dua tahun saling mengenal, kami menyadari bahwa mimpi kami lebih indah ketika dijalani bersama.",
-    },
-    {
-      year: "2024",
-      title: "Lamaran",
-      description:
-        "Di bawah langit senja Prambanan, ia mengulurkan tangan dan memintaku melengkapi hidupnya selamanya.",
-    },
-  ],
+  // ─── Love Story (isi nanti jika klien menyediakan cerita) ───────────────────
+  loveStory: [],
 
-  // ─── Galeri ─────────────────────────────────────────────────────────────
-  gallery: [
-    { src: "https://picsum.photos/seed/heritage1/600/800", alt: "Foto 1" },
-    { src: "https://picsum.photos/seed/heritage2/600/800", alt: "Foto 2" },
-    { src: "https://picsum.photos/seed/heritage3/800/600", alt: "Foto 3" },
-    { src: "https://picsum.photos/seed/heritage4/600/800", alt: "Foto 4" },
-    { src: "https://picsum.photos/seed/heritage5/800/600", alt: "Foto 5" },
-    { src: "https://picsum.photos/seed/heritage6/600/800", alt: "Foto 6" },
-  ],
+  // ─── Galeri — 30 foto (isi file ke src/assets/gallery/ dengan nama berikut) ──
+  // Format: foto-01.jpg … foto-30.jpg
+  gallery: Array.from({ length: 30 }, (_, i) => ({
+    src: `/assets/gallery/foto-${String(i + 1).padStart(2, "0")}.jpg`,
+    alt: `Foto ${i + 1} — Arman & Dian`,
+  })),
 
-  // ─── Maps (embed URL untuk lokasi utama / resepsi) ──────────────────────
+  // ─── Maps Embed ─────────────────────────────────────────────────────────────
+  // Ganti nilai ini dengan embed URL dari Google Maps (klik Share → Embed a map)
   mapsEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.4!2d110.3673!3d-7.7933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwNDcnMzUuOSJTIDExMMKwMjInMDIuMyJF!5e0!3m2!1sen!2sid!4v1234567890",
+    "https://maps.google.com/maps?q=Auditorium+Kantor+Bupati+Parigi+Mautong+Sulawesi+Tengah&output=embed",
 
-  // ─── RSVP ───────────────────────────────────────────────────────────────
+  // ─── RSVP & Ucapan ───────────────────────────────────────────────────────────
   rsvpWebhookUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
-
-  // ─── Ucapan & Doa ────────────────────────────────────────────────────────
   wishesWebhookUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
 
-  // ─── Amplop Digital ──────────────────────────────────────────────────────
+  // ─── Amplop Digital ──────────────────────────────────────────────────────────
   digitalEnvelope: {
     bankAccounts: [
       {
-        bank: "BCA",
-        accountNumber: "1234567890",
-        accountName: "Raden Arjuna Pratama",
-      },
-      {
-        bank: "Mandiri",
-        accountNumber: "0987654321",
-        accountName: "Dewi Kinanthi Wulandari",
+        bank: "BRI",
+        accountNumber: "4676 0105 6209 536",
+        accountName: "Arman Kanaf",
       },
     ],
-    qrisImageUrl: "",
+    qrisImageUrl: "", // QRIS belum tersedia — section otomatis tersembunyi saat kosong
   },
 
-  // ─── Musik ───────────────────────────────────────────────────────────────
-  musicUrl: "/music/background.mp3",
+  // ─── Musik ────────────────────────────────────────────────────────────────────
+  // Belum ditentukan klien — isi path setelah file audio tersedia
+  // Contoh: "/music/background.mp3"
+  musicUrl: "",
 
-  // ─── Cover Video (opsional — looping di background cover) ────────────────
-  // [HERITAGE] Aktifkan jika ingin video prosesi adat di cover
-  // Hanya berlaku jika coverBackgroundType: "color" (foto lebih prioritas jika "photo")
+  // ─── WhatsApp & Hashtag (belum diisi klien — kosong = tersembunyi) ───────────
+  whatsappNumber: "", // format: "628123456789"
+  weddingHashtag: "", // format: "#ArmanDian2026"
+
+  // ─── Cover Video (nonaktif — pakai slideshow foto) ───────────────────────────
   showCoverVideo: false,
   coverVideoUrl: "",
 
-  // ─── Meta / SEO ──────────────────────────────────────────────────────────
-  metaTitle: "Undangan Pernikahan Arjuna & Kinanthi",
+  // ─── Meta / SEO ──────────────────────────────────────────────────────────────
+  metaTitle: "Undangan Pernikahan Arman & Dian · 25 Juli 2026",
   metaDescription:
-    "Kami mengundang Anda untuk hadir dan merayakan momen sakral pernikahan kami.",
+    "Dengan penuh sukacita kami mengundang Anda hadir dalam pemberkatan dan resepsi pernikahan Arman Kanaf & Dian Hezedila Sharon.",
 };
 
 export default weddingConfig;
