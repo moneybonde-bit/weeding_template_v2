@@ -1119,28 +1119,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
   letter-spacing: 1px;
 }
 
-/* ─── Footer — tambahan klien Arman & Dian ───────────────────────────────────── */
-.footer__scripture {
-  max-width: 480px;
-  margin: 0 auto 8px;
-  padding: 0 12px;
-}
-
-.footer__scripture-text {
-  font-family: var(--font-serif);
-  font-size: clamp(14px, 3.5vw, 16px);
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.82);
-  line-height: 1.75;
-  margin-bottom: 10px;
-}
-
-.footer__scripture-ref {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-gold);
-  opacity: 0.8;
+/* ─── Footer — Arman & Dian ──────────────────────────────────────────────────── */
+.footer__families-wrapper {
+  scroll-margin-top: 40px;
 }
 
 .footer__closing {
@@ -1179,6 +1160,273 @@ button { cursor: pointer; font-family: var(--font-sans); }
   font-size: 12px;
   color: rgba(255, 255, 255, 0.65);
   line-height: 1.85;
+}
+
+/* ─── Scripture (section AYAT) ───────────────────────────────────────────────── */
+.scripture {
+  background: var(--color-cream);
+  scroll-margin-top: 20px;
+}
+
+.scripture__text {
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 3.8vw, 18px);
+  font-style: italic;
+  color: var(--color-text-light);
+  line-height: 1.85;
+  max-width: 520px;
+  margin: 0 auto 14px;
+  border: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.scripture__ref {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-terracotta);
+  font-weight: 500;
+}
+
+/* ─── Ethnic Icons Row ───────────────────────────────────────────────────────── */
+.ethnic-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 28px auto 4px;
+  color: var(--color-gold);
+}
+
+.ethnic-icons__cell {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.ethnic-icons__sep {
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+  opacity: 0.55;
+}
+
+.ethnic-icons--on-dark {
+  color: var(--color-gold);
+  opacity: 0.85;
+  margin-top: 24px;
+}
+
+/* ─── Gallery preview + toggle ───────────────────────────────────────────────── */
+.gallery__preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 28px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery__preview-card {
+  background: #fff;
+  border: 1px solid rgba(184, 146, 74, 0.25);
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gallery__preview-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--color-cream-dark);
+  margin-bottom: 12px;
+}
+
+.gallery__preview-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery__preview-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-terracotta);
+  font-family: var(--font-serif);
+  font-size: 56px;
+  opacity: 0.4;
+}
+
+.gallery__preview-label {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-terracotta);
+  margin-bottom: 2px;
+}
+
+.gallery__preview-name {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--color-burgundy);
+}
+
+.gallery__toggle-btn {
+  margin: 24px auto 0;
+  display: block;
+  padding: 10px 28px;
+  background: transparent;
+  color: var(--color-terracotta);
+  border: 1px solid var(--color-terracotta);
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+.gallery__toggle-btn:hover {
+  background: var(--color-terracotta);
+  color: #fff;
+}
+
+.gallery__grid-wrapper {
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 24px;
+}
+
+/* Override: tidak pakai full-width pertama lagi karena layout berbeda */
+.gallery__grid > *:first-child {
+  grid-column: auto;
+}
+
+/* ─── Lightbox nav (next/prev/counter) ───────────────────────────────────────── */
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+  user-select: none;
+}
+
+.lightbox__nav:hover { background: rgba(255, 255, 255, 0.22); }
+.lightbox__nav--prev { left: 12px; }
+.lightbox__nav--next { right: 12px; }
+
+.lightbox__counter {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/* ─── Bottom Navigation ──────────────────────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 140;
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 252, 247, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(184, 146, 74, 0.28);
+  border-radius: 999px;
+  padding: 8px 10px;
+  box-shadow: 0 8px 28px rgba(92, 26, 26, 0.18);
+  max-width: calc(100vw - 24px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.bottom-nav::-webkit-scrollbar { display: none; }
+
+.bottom-nav__item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  transition: color 0.2s, background 0.2s;
+}
+
+.bottom-nav__item--active {
+  color: var(--color-terracotta);
+}
+
+.bottom-nav__label {
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  font-weight: 500;
+}
+
+.bottom-nav__item--active .bottom-nav__label {
+  font-weight: 600;
+}
+
+/* ─── Music button — pindah ke atas-kanan supaya tidak nabrak bottom nav ──── */
+.music-btn {
+  bottom: auto !important;
+  top: 18px !important;
+  right: 16px !important;
+}
+
+/* Beri ruang bawah pada main content supaya konten terakhir tidak ketutupan nav */
+.main-content {
+  padding-bottom: 84px;
+}
+
+/* ─── Reduced motion: hormati preferensi OS user ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Scroll margin agar nav scrollIntoView tidak tertutup nav ──────────────── */
+#couple, #events, #ayat, #gallery {
+  scroll-margin-top: 12px;
 }
 
 /* ─── Link Generator (Admin) ─────────────────────────────────────────────────── */

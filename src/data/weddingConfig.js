@@ -24,8 +24,11 @@ const weddingConfig = {
   // "color"     : background solid gradient warna tema
   coverBackgroundType: "slideshow",
 
-  // Tiga foto adat Arman & Dian — simpan file di src/assets/
-  // Nama file bisa disesuaikan; pastikan path di sini cocok.
+  // TODO MANUSIA: tiga foto adat Arman & Dian untuk slideshow hero.
+  // Simpan file ke folder `public/assets/` dengan nama PERSIS:
+  //   cover-1.jpg, cover-2.jpg, cover-3.jpg  (atau .png — sesuaikan ekstensi
+  //   di array ini). Vite akan serve folder `public/` di root URL.
+  // Interval cycling diatur di Cover.jsx (default 4500ms = 4.5 detik).
   coverPhotos: [
     "/assets/cover-1.jpg",
     "/assets/cover-2.jpg",
@@ -87,6 +90,13 @@ const weddingConfig = {
     "Kel. Nyolo-nyolo - Tangkidi",
   ],
 
+  // ─── Icon Etnik Heritage (configurable per klien) ───────────────────────────
+  // Daerah yang tersedia: "bali", "ntt", "bada" (dapat diperluas — tambah file
+  // di src/components/EthnicIcons/ dan daftarkan di EthnicIcons/index.jsx).
+  // Urutan array = urutan render kiri-ke-kanan.
+  showEthnicIcons: true,
+  ethnicRegions: ["bali", "ntt", "bada"],
+
   // ─── Sections Toggle ────────────────────────────────────────────────────────
   showCouplePhotoSection: false,
   couplePhotoCaptionText: "",
@@ -101,9 +111,12 @@ const weddingConfig = {
   // ─── Love Story (isi nanti jika klien menyediakan cerita) ───────────────────
   loveStory: [],
 
-  // ─── Galeri — 30 foto (isi file ke src/assets/gallery/ dengan nama berikut) ──
-  // Format: foto-01.jpg … foto-30.jpg
-  gallery: Array.from({ length: 30 }, (_, i) => ({
+  // ─── Galeri — 25 foto momen pernikahan ─────────────────────────────────────
+  // TODO MANUSIA: simpan file foto ke folder `public/assets/gallery/`
+  //               dengan penamaan: foto-01.jpg, foto-02.jpg, … foto-25.jpg
+  // Jika file belum ada, kartu galeri akan tampil broken-image — hapus entry
+  // yang belum tersedia atau biarkan kosong (akan saya kasih placeholder).
+  gallery: Array.from({ length: 25 }, (_, i) => ({
     src: `/assets/gallery/foto-${String(i + 1).padStart(2, "0")}.jpg`,
     alt: `Foto ${i + 1} — Arman & Dian`,
   })),

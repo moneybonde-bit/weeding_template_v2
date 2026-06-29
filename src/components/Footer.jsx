@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import config from "../data/weddingConfig";
 import OrnamentDivider from "./OrnamentDivider";
+import EthnicIconRow from "./EthnicIcons";
 
 export default function Footer() {
   const mainEvent = config.events.find((e) => e.id === "resepsi") || config.events[0];
@@ -25,41 +26,43 @@ export default function Footer() {
         />
       </svg>
 
-      {/* Ayat Alkitab */}
-      {config.scriptureVerse && (
-        <motion.div
-          className="footer__scripture"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-        >
-          <p className="footer__scripture-text">"{config.scriptureVerse}"</p>
-          <p className="footer__scripture-ref">{config.scriptureReference}</p>
-        </motion.div>
-      )}
-
-      <OrnamentDivider />
-
-      {/* Teks penutup */}
-      {config.closingText && (
-        <p className="footer__closing">{config.closingText}</p>
-      )}
-
-      {/* Nama keluarga dua kolom */}
+      {/* Blok Keluarga — section "KELUARGA" di bottom nav */}
       {hasFamily && (
-        <div className="footer__families">
-          <div className="footer__family-col">
-            {config.familyNamesLeft.map((name, i) => (
-              <p key={i} className="footer__family-name">{name}</p>
-            ))}
-          </div>
-          <div className="footer__family-divider" />
-          <div className="footer__family-col">
-            {config.familyNamesRight.map((name, i) => (
-              <p key={i} className="footer__family-name">{name}</p>
-            ))}
-          </div>
+        <div id="keluarga" className="footer__families-wrapper">
+          {config.closingText && (
+            <motion.p
+              className="footer__closing"
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              {config.closingText}
+            </motion.p>
+          )}
+
+          <motion.div
+            className="footer__families"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+          >
+            <div className="footer__family-col">
+              {config.familyNamesLeft.map((name, i) => (
+                <p key={i} className="footer__family-name">{name}</p>
+              ))}
+            </div>
+            <div className="footer__family-divider" />
+            <div className="footer__family-col">
+              {config.familyNamesRight.map((name, i) => (
+                <p key={i} className="footer__family-name">{name}</p>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Icon etnik di Footer — penempatan kedua (campuran) */}
+          <EthnicIconRow className="ethnic-icons--on-dark" size={32} />
         </div>
       )}
 

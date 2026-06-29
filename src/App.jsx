@@ -15,8 +15,10 @@ import Location from "./components/Location";
 import Rsvp from "./components/Rsvp";
 import Wishes from "./components/Wishes";
 import DigitalEnvelope from "./components/DigitalEnvelope";
+import Scripture from "./components/Scripture";
 import Footer from "./components/Footer";
 import MusicButton from "./components/MusicButton";
+import BottomNav from "./components/BottomNav";
 import LinkGenerator from "./components/LinkGenerator";
 
 const isAdmin = new URLSearchParams(window.location.search).get("admin") === "1";
@@ -56,6 +58,7 @@ export default function App() {
             <OurPrayer />
             <LoveStory />
             <Events />
+            <Scripture />
             <Gallery />
             <Location />
             <Rsvp guestName={guestName} />
@@ -63,6 +66,8 @@ export default function App() {
             <DigitalEnvelope />
             <Footer />
           </motion.main>
+
+          <BottomNav />
         </>
       )}
     </>
